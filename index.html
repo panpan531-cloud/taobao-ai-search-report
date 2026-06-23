@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>淘宝 AI 搜索与导购场景研究</title>
+    <meta
+      name="description"
+      content="淘宝搜索用户反馈、query 类型分布与 AI 导购落地场景研究。"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff6a00'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-size='28' font-family='Arial' font-weight='700' fill='white'%3E淘%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,760&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="texture" aria-hidden="true"></div>
+    <div class="cursor-orbit" aria-hidden="true"></div>
+
+    <header class="topbar" data-reveal>
+      <a class="brand-lockup" href="#hero" aria-label="回到顶部">
+        <span class="brand-mark">淘</span>
+        <span>
+          <strong>Taobao Search Lab</strong>
+          <small>AI Shopping Guide Strategy</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="#signals">反馈</a>
+        <a href="#queries">Query</a>
+        <a href="#scenarios">场景</a>
+        <a href="#roadmap">落地</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hero" class="hero section-band">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">
+            <span class="pulse-dot"></span>
+            2025.12-2026.06 社媒反馈 x 电商 query 结构 x AI 导购机会
+          </p>
+          <h1>淘宝 AI 搜索的机会，不是多一个聊天框，而是重建“找得到、比得清、买得准”的购物入口</h1>
+          <p class="lead">
+            近半年关于淘宝搜索的讨论，负向集中在相关性被稀释、服饰结果同质化、广告和历史偏好挤占任务搜索、精确找同款和价格判断困难；正向信号同样清晰：用户仍认可淘宝的长尾供给、图片找同款和交易链路。AI 搜索应该优先接住传统搜索最难表达的约束、场景和决策任务。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#recommendation">
+              <span>看核心建议</span>
+              <i data-lucide="arrow-down-right" aria-hidden="true"></i>
+            </a>
+            <a class="secondary-action" href="#queries">
+              <span>看 query 结构</span>
+              <i data-lucide="chart-no-axes-column-increasing" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-console" data-reveal>
+          <div class="console-top">
+            <span>Search intent trace</span>
+            <em class="mono">directional model</em>
+          </div>
+          <div class="search-shell">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <span class="typing-text" data-typing></span>
+          </div>
+          <div class="intent-stack">
+            <div class="intent-row active">
+              <span>用户真实任务</span>
+              <strong>约束式购买</strong>
+            </div>
+            <div class="intent-row">
+              <span>传统召回</span>
+              <strong>关键词 + 排序</strong>
+            </div>
+            <div class="intent-row highlight">
+              <span>AI 导购增量</span>
+              <strong>任务拆解 + 决策解释</strong>
+            </div>
+          </div>
+          <div class="mini-flow" aria-label="AI搜索链路示意">
+            <span>query</span>
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+            <span>intent</span>
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+            <span>rerank</span>
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+            <span>guide</span>
+          </div>
+        </aside>
+      </section>
+
+      <section id="signals" class="section-band signals-band">
+        <div class="section-heading" data-reveal>
+          <span class="section-kicker">01 / SOCIAL SIGNALS</span>
+          <h2>用户不是不想搜，而是不再确定搜索结果是否服务于自己的任务</h2>
+          <p>
+            小红书站内深抓在本次运行中触发验证码和浏览器扩展限制，因此这里采用“方向性社媒信号 + 公开可索引讨论 + 行业资料”的交叉归纳。结论不声称代表全量评论，但足以形成产品判断：搜索体验的问题是信任、控制感和决策效率。
+          </p>
+        </div>
+
+        <div class="signal-layout">
+          <div class="sentiment-panel" data-reveal>
+            <div class="panel-label">要点整理</div>
+            <div class="sentiment-tabs" role="tablist" aria-label="正负向反馈">
+              <button class="sentiment-tab active" type="button" data-sentiment="negative">负向反馈</button>
+              <button class="sentiment-tab" type="button" data-sentiment="positive">正向反馈</button>
+            </div>
+            <div class="sentiment-list active" data-sentiment-list="negative">
+              <article>
+                <strong>相关性被稀释</strong>
+                <p>用户输入明确商品词，却感到结果被近期浏览、推荐流、广告位或泛类目热品影响；搜索页被感知为“另一个推荐页”。</p>
+              </article>
+              <article>
+                <strong>同质化让选择成本上升</strong>
+                <p>服饰、美妆、家居等类目中，大量相似标题和图片堆叠，差异点不透明，用户需要自己判断材质、版型、店铺可信度。</p>
+              </article>
+              <article>
+                <strong>精确找同款仍有断点</strong>
+                <p>用户从截图、博主内容、旧订单、线下场景回到淘宝时，往往缺少完整商品名，传统搜索难以恢复上下文。</p>
+              </article>
+              <article>
+                <strong>价格和优惠难以一眼判断</strong>
+                <p>券、满减、88VIP、跨店活动、运费和退换货规则叠加后，用户更想知道“现在买是不是划算”。</p>
+              </article>
+            </div>
+            <div class="sentiment-list" data-sentiment-list="positive">
+              <article>
+                <strong>图片找同款心智稳定</strong>
+                <p>当用户有截图、商品图或穿搭参考时，淘宝仍是高频回流入口，说明多模态搜索基础可继续放大。</p>
+              </article>
+              <article>
+                <strong>长尾供给仍是优势</strong>
+                <p>淘宝的 SKU 覆盖广、替代品多、非标品丰富。AI 的价值是把供给广度变成可理解的选择结构。</p>
+              </article>
+              <article>
+                <strong>交易链路天然可闭环</strong>
+                <p>搜索、领券、下单、物流、售后都在同一体系内，AI 导购可以从推荐延伸到价格计算和履约风险提示。</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="friction-map" data-reveal>
+            <div class="panel-label">从评论到产品问题</div>
+            <div class="friction-axis">
+              <span>低决策成本</span>
+              <span>高决策成本</span>
+            </div>
+            <div class="friction-canvas">
+              <button class="friction-dot dot-a active" type="button" data-friction="relevance">
+                <span>相关性</span>
+              </button>
+              <button class="friction-dot dot-b" type="button" data-friction="duplicate">
+                <span>同质化</span>
+              </button>
+              <button class="friction-dot dot-c" type="button" data-friction="price">
+                <span>价格</span>
+              </button>
+              <button class="friction-dot dot-d" type="button" data-friction="context">
+                <span>上下文</span>
+              </button>
+            </div>
+            <div class="friction-detail" data-friction-detail>
+              <strong>相关性不是单纯排序问题</strong>
+              <p>当搜索结果混入推荐和商业化信号，用户会怀疑入口中立性。AI 搜需要先识别“任务搜索”，再把推荐信号降权或解释化。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="queries" class="section-band query-band">
+        <div class="section-heading" data-reveal>
+          <span class="section-kicker">02 / QUERY STRUCTURE</span>
+          <h2>淘宝 query 可以分成七类，AI 应优先处理“约束、场景、决策”三类复杂意图</h2>
+          <p>
+            分布是工作假设：参考电商搜索 query 类型研究、传统搜索意图框架，以及淘宝商品搜索的交易属性推导。后续可以用真实 query log 校准份额，但不影响先判断 AI 搜的首批落地点。
+          </p>
+        </div>
+
+        <div class="query-layout">
+          <div class="radial-panel" data-reveal>
+            <div class="radial-chart" aria-label="Query类型分布假设">
+              <svg viewBox="0 0 260 260" role="img" aria-labelledby="chartTitle">
+                <title id="chartTitle">淘宝 query 类型分布假设</title>
+                <circle class="radial-bg" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-1" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-2" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-3" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-4" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-5" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-6" cx="130" cy="130" r="92"></circle>
+                <circle class="radial-seg seg-7" cx="130" cy="130" r="92"></circle>
+              </svg>
+              <div class="radial-center">
+                <strong>AI Fit</strong>
+                <span>约束/场景/决策优先</span>
+              </div>
+            </div>
+            <div class="radial-note">
+              <strong>判断原则</strong>
+              <p>越是“用户说不清商品名、需要综合约束、需要比较和解释”的 query，越适合由 AI 导购接管。</p>
+            </div>
+          </div>
+
+          <div class="query-table" data-reveal>
+            <button class="query-row active" type="button" data-query="exact">
+              <span class="meter"><i style="--w: 26%"></i></span>
+              <strong>精确商品 / 已知目标</strong>
+              <em>26%</em>
+            </button>
+            <button class="query-row" type="button" data-query="category">
+              <span class="meter"><i style="--w: 22%"></i></span>
+              <strong>泛类目 / 浏览式需求</strong>
+              <em>22%</em>
+            </button>
+            <button class="query-row" type="button" data-query="attribute">
+              <span class="meter"><i style="--w: 18%"></i></span>
+              <strong>属性约束 / 自然语言筛选</strong>
+              <em>18%</em>
+            </button>
+            <button class="query-row" type="button" data-query="occasion">
+              <span class="meter"><i style="--w: 13%"></i></span>
+              <strong>场景方案 / 任务型购买</strong>
+              <em>13%</em>
+            </button>
+            <button class="query-row" type="button" data-query="comparison">
+              <span class="meter"><i style="--w: 9%"></i></span>
+              <strong>对比决策 / 买前判断</strong>
+              <em>9%</em>
+            </button>
+            <button class="query-row" type="button" data-query="service">
+              <span class="meter"><i style="--w: 7%"></i></span>
+              <strong>订单 / 售后 / 本地服务</strong>
+              <em>7%</em>
+            </button>
+            <button class="query-row" type="button" data-query="content">
+              <span class="meter"><i style="--w: 5%"></i></span>
+              <strong>内容种草 / 跨平台同款</strong>
+              <em>5%</em>
+            </button>
+          </div>
+
+          <aside class="query-detail" data-reveal>
+            <span class="panel-label">Selected intent</span>
+            <h3 data-query-title>精确商品 / 已知目标</h3>
+            <p data-query-copy>
+              搜商品标题片段、品牌型号、订单同款或截图同款。AI 的价值在于把“模糊记忆”恢复成候选集合，并合并重复 SKU。
+            </p>
+            <div class="example-chips" data-query-examples>
+              <span>商品标题片段</span>
+              <span>品牌+型号</span>
+              <span>订单同款</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="scenarios" class="section-band scenario-band">
+        <div class="section-heading" data-reveal>
+          <span class="section-kicker">03 / AI SHOPPING GUIDE SCENARIOS</span>
+          <h2>AI 导购要落在“商品理解 + 个人上下文 + 交易计算”交汇处</h2>
+          <p>
+            仅把搜索框换成问答框，容易变成低频工具。更值得优先做的是嵌入搜索结果、商品详情、活动页和订单链路的 AI 能力，让用户少筛选、少比价、少踩坑。
+          </p>
+        </div>
+
+        <div class="scenario-stage" data-reveal>
+          <div class="scenario-list" role="tablist" aria-label="AI导购场景">
+            <button class="scenario-item active" type="button" data-scenario="recover">
+              <span>01</span>
+              <strong>模糊同款恢复</strong>
+            </button>
+            <button class="scenario-item" type="button" data-scenario="constraint">
+              <span>02</span>
+              <strong>约束式服饰导购</strong>
+            </button>
+            <button class="scenario-item" type="button" data-scenario="deal">
+              <span>03</span>
+              <strong>到手价真相计算</strong>
+            </button>
+            <button class="scenario-item" type="button" data-scenario="bundle">
+              <span>04</span>
+              <strong>任务型清单购物</strong>
+            </button>
+            <button class="scenario-item" type="button" data-scenario="risk">
+              <span>05</span>
+              <strong>评价风险摘要</strong>
+            </button>
+          </div>
+
+          <div class="phone-mock" aria-label="AI导购产品界面示意">
+            <div class="phone-top">
+              <span></span>
+              <strong>AI 搜</strong>
+              <i data-lucide="sparkles" aria-hidden="true"></i>
+            </div>
+            <div class="chat-card user">
+              <p data-phone-query>我上周看过一条小个子通勤裤，黑色直筒，想找同款或更便宜的。</p>
+            </div>
+            <div class="chat-card ai">
+              <span>意图识别</span>
+              <p data-phone-intent>已合并浏览记录、图片相似款、版型约束和价格区间，优先展示可退换且尺码评价稳定的候选。</p>
+            </div>
+            <div class="product-strip">
+              <article>
+                <div class="product-image img-a"></div>
+                <strong>相似度 92%</strong>
+                <span>到手 ¥129</span>
+              </article>
+              <article>
+                <div class="product-image img-b"></div>
+                <strong>平替推荐</strong>
+                <span>到手 ¥99</span>
+              </article>
+            </div>
+            <button class="guide-button" type="button">生成对比表</button>
+          </div>
+
+          <div class="scenario-detail">
+            <span class="panel-label">落地拆解</span>
+            <h3 data-scenario-title>模糊同款恢复</h3>
+            <p data-scenario-need>用户记得样子、场景或曾经看过，但不记得完整商品标题。</p>
+            <div class="scenario-points">
+              <div>
+                <strong>AI动作</strong>
+                <p data-scenario-ai>结合图片搜索、标题记忆、浏览轨迹、订单历史和风格向量，重建候选集。</p>
+              </div>
+              <div>
+                <strong>承载位置</strong>
+                <p data-scenario-surface>AI 搜 tab + 搜索框建议 + 结果页候选聚类。</p>
+              </div>
+              <div>
+                <strong>核心指标</strong>
+                <p data-scenario-metric>同款找回率、搜索后加购率、二跳筛选减少率。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="recommendation" class="section-band recommendation-band">
+        <div class="recommendation-wrap" data-reveal>
+          <div>
+            <span class="section-kicker">04 / PRODUCT RECOMMENDATION</span>
+            <h2>建议用“AI 搜三层架构”推进：先修复搜索信任，再扩大导购场景</h2>
+          </div>
+          <div class="layer-stack">
+            <article>
+              <span class="layer-index">L1</span>
+              <h3>意图识别层</h3>
+              <p>识别精确、类目、约束、场景、对比、售后、内容种草七类 query；对任务搜索降低推荐污染。</p>
+            </article>
+            <article>
+              <span class="layer-index">L2</span>
+              <h3>商品理解层</h3>
+              <p>抽取材质、版型、尺寸、功效、适用人群、价格、履约和评价风险，形成可比较的商品卡。</p>
+            </article>
+            <article>
+              <span class="layer-index">L3</span>
+              <h3>导购决策层</h3>
+              <p>用解释式排序、对比表、到手价计算、清单生成，把“搜到商品”推进到“做出购买判断”。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap" class="section-band roadmap-band">
+        <div class="section-heading" data-reveal>
+          <span class="section-kicker">05 / EXECUTION ROADMAP</span>
+          <h2>从低风险入口切入，三阶段验证 AI 搜的增量价值</h2>
+          <p>
+            首批不宜追求全站万能助手，而应选择“传统搜索高摩擦、AI 解释价值高、交易指标可闭环”的场景做灰度。
+          </p>
+        </div>
+
+        <div class="roadmap" data-reveal>
+          <article>
+            <span>Phase 1</span>
+            <h3>搜索页 AI 摘要与重复合并</h3>
+            <p>服饰/家居/数码等高比较类目先上线：相似款聚类、差异点摘要、到手价提示。</p>
+            <strong>验证：筛选减少、加购提升、负反馈下降</strong>
+          </article>
+          <article>
+            <span>Phase 2</span>
+            <h3>约束式导购与对比表</h3>
+            <p>支持自然语言约束，生成可编辑对比表，并保留可解释证据和商详跳转。</p>
+            <strong>验证：对比使用率、购买转化、退货率</strong>
+          </article>
+          <article>
+            <span>Phase 3</span>
+            <h3>任务型清单与个人上下文</h3>
+            <p>引入订单、收藏、尺码偏好、地址和会员权益，形成搬家、旅行、开学等清单式购物。</p>
+            <strong>验证：多件购买、复访、用户信任评分</strong>
+          </article>
+        </div>
+
+        <div class="metrics-grid" data-reveal>
+          <div class="metric-card">
+            <span>Search Quality</span>
+            <strong>相关点击率</strong>
+            <p>搜索后首屏有效点击、重复改 query 次数、筛选使用深度。</p>
+          </div>
+          <div class="metric-card">
+            <span>Decision Quality</span>
+            <strong>导购采纳率</strong>
+            <p>对比表打开、AI 摘要展开、推荐理由点击、收藏/加购。</p>
+          </div>
+          <div class="metric-card">
+            <span>Transaction Quality</span>
+            <strong>有效成交</strong>
+            <p>支付转化、售后申请、退货率、评价风险命中。</p>
+          </div>
+          <div class="metric-card">
+            <span>Trust</span>
+            <strong>可控感</strong>
+            <p>不喜欢/屏蔽/举报下降，用户对“推荐理由”的正反馈。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-band sources-band">
+        <div class="section-heading compact" data-reveal>
+          <span class="section-kicker">06 / RESEARCH BASIS</span>
+          <h2>研究依据与边界</h2>
+          <p>
+            本页把站内采集尝试、公开资料、搜索意图研究和电商产品判断结合使用；具体份额需在真实 query log 中复核。
+          </p>
+        </div>
+        <div class="source-list" data-reveal>
+          <a href="https://finance.sina.com.cn/wm/2025-02-02/doc-ineianuz8634117.shtml" target="_blank" rel="noreferrer">
+            新浪财经：淘宝搜索为何频频“失灵”
+            <i data-lucide="external-link" aria-hidden="true"></i>
+          </a>
+          <a href="https://finance.sina.com.cn/tech/2025-10-16/doc-infuaqms8215894.shtml" target="_blank" rel="noreferrer">
+            新浪财经：淘宝发布 AI 万能搜等导购应用
+            <i data-lucide="external-link" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.baymard.com/blog/ecommerce-search-query-types" target="_blank" rel="noreferrer">
+            Baymard：电商搜索 query 类型研究
+            <i data-lucide="external-link" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.cse.lehigh.edu/~brian/pubs/2008/www2008.pdf" target="_blank" rel="noreferrer">
+            Jansen / Booth / Spink：搜索意图分类研究
+            <i data-lucide="external-link" aria-hidden="true"></i>
+          </a>
+          <a href="https://arxiv.org/abs/2601.05513" target="_blank" rel="noreferrer">
+            Taobao AI Search 相关 LLM 检索研究
+            <i data-lucide="external-link" aria-hidden="true"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
