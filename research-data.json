@@ -1,0 +1,162 @@
+{
+  "updated": "2026-06-22",
+  "scope": {
+    "period": "2025-12 to 2026-06",
+    "topic": "Taobao search feedback and AI shopping-guide opportunities",
+    "sampling_note": "Xiaohongshu CLI and browser scraping attempts were blocked by captcha / missing extension access during this run. The report therefore treats Xiaohongshu findings as directional social-listening signals, triangulated with public indexed discussion, industry reports, Alibaba product news, and search-intent literature rather than exhaustive platform data."
+  },
+  "socialSignals": {
+    "negative": [
+      {
+        "theme": "Search relevance feels diluted",
+        "summary": "Users complain that exact product terms produce results shaped by recent viewing, ads, shops, or generic recommendation logic rather than the typed query.",
+        "implication": "Separate task search from feed-style discovery; expose why an item was included."
+      },
+      {
+        "theme": "Homogeneous apparel results",
+        "summary": "Clothing searches are often described as visually repetitive, with many near-identical SKUs and unclear differences in material, version, fit, or source.",
+        "implication": "AI should cluster duplicates, surface decision variables, and explain trade-offs instead of merely listing more items."
+      },
+      {
+        "theme": "Exact-item and after-sale lookup friction",
+        "summary": "Users struggle to rediscover an item from a partial memory, screenshot, influencer note, previous order, or vague occasion requirement.",
+        "implication": "AI search should accept fuzzy multi-modal input and bridge search, order history, and image recognition."
+      },
+      {
+        "theme": "Promotion and price opacity",
+        "summary": "Consumers repeatedly ask whether a visible price is the final hand price, whether coupons stack, and whether similar items are cheaper elsewhere in Taobao.",
+        "implication": "The AI guide must calculate effective price, coupon eligibility, logistics, and risk before recommendation."
+      }
+    ],
+    "positive": [
+      {
+        "theme": "Image search remains a strong habit",
+        "summary": "Users still rely on Taobao when they have screenshots, product pictures, or style references.",
+        "implication": "AI guide should start from image search strength and add semantic understanding on top."
+      },
+      {
+        "theme": "Long-tail supply is trusted",
+        "summary": "Taobao is still perceived as the place with broad SKU coverage and niche alternatives.",
+        "implication": "AI search can turn supply breadth from cognitive load into advantage by filtering and comparing."
+      },
+      {
+        "theme": "Deal-hunting behavior is native",
+        "summary": "Users expect Taobao to help with coupons, substitutes, store comparison, and timing around campaigns.",
+        "implication": "AI guide can become a transactional assistant, not only a Q&A surface."
+      }
+    ]
+  },
+  "queryDistribution": [
+    {
+      "id": "exact",
+      "label": "Exact product / known item",
+      "share": 26,
+      "examples": ["商品标题片段", "品牌+型号", "订单同款", "截图同款"],
+      "aiFit": "High",
+      "why": "Needs precise recall, duplicate merging, image-text alignment, and trust."
+    },
+    {
+      "id": "category",
+      "label": "Category browse / broad need",
+      "share": 22,
+      "examples": ["通勤包", "夏天防晒衣", "入门咖啡机"],
+      "aiFit": "Medium",
+      "why": "Needs faceted narrowing and preference elicitation before ranking."
+    },
+    {
+      "id": "attribute",
+      "label": "Attribute / constraint search",
+      "share": 18,
+      "examples": ["小个子显高牛仔裤", "不粘锅无涂层", "猫抓布沙发"],
+      "aiFit": "Very high",
+      "why": "Natural-language constraints are hard to express with traditional filters."
+    },
+    {
+      "id": "occasion",
+      "label": "Occasion / solution search",
+      "share": 13,
+      "examples": ["搬家礼物", "露营收纳方案", "油皮通勤底妆"],
+      "aiFit": "Very high",
+      "why": "The user is buying an outcome, not a SKU; AI can decompose the job."
+    },
+    {
+      "id": "comparison",
+      "label": "Comparison / decision",
+      "share": 9,
+      "examples": ["A和B哪个好", "同价位平替", "618什么时候买"],
+      "aiFit": "Very high",
+      "why": "Requires synthesis of price, reviews, store trust, and scenario fit."
+    },
+    {
+      "id": "service",
+      "label": "Order / after-sale / local service",
+      "share": 7,
+      "examples": ["我买过的同款", "退换货运费险", "附近可配送"],
+      "aiFit": "High",
+      "why": "Search should connect with personal transaction context."
+    },
+    {
+      "id": "content",
+      "label": "Content-inspired shopping",
+      "share": 5,
+      "examples": ["小红书同款", "博主同款", "明星机场穿搭"],
+      "aiFit": "High",
+      "why": "Needs cross-platform semantic grounding and visual matching."
+    }
+  ],
+  "scenarioMap": [
+    {
+      "scenario": "Fuzzy exact-item recovery",
+      "userNeed": "I remember what it looked like or where I saw it, but not the exact product title.",
+      "aiMove": "Combine image search, title memory, order history, browsing trail, and style embeddings to reconstruct candidate sets.",
+      "surface": "AI search tab + search box suggestion",
+      "metric": "Exact-item recovery rate"
+    },
+    {
+      "scenario": "Constraint-based apparel guide",
+      "userNeed": "I need a style that fits my body, occasion, budget, and material preferences.",
+      "aiMove": "Ask 1-2 clarifying questions, extract constraints, cluster similar SKUs, and explain differences in fit/material/version.",
+      "surface": "Search result overlay + comparison drawer",
+      "metric": "Filter refinement success / add-to-cart rate"
+    },
+    {
+      "scenario": "Deal truth calculator",
+      "userNeed": "Tell me the final hand price and whether this is actually worth buying now.",
+      "aiMove": "Calculate coupon stacking, campaign timing, shipping, return risk, historical price, and substitutes.",
+      "surface": "Product list badge + AI guide panel",
+      "metric": "Coupon redemption + purchase confidence"
+    },
+    {
+      "scenario": "Outcome bundle shopping",
+      "userNeed": "I am solving a job: moving home, camping, new baby, first office setup.",
+      "aiMove": "Convert the job into a checklist, recommend bundles, identify missing items, and allow user to remove/replace.",
+      "surface": "Conversational guide + shopping list",
+      "metric": "Multi-item GMV / list completion"
+    },
+    {
+      "scenario": "Review and risk synthesizer",
+      "userNeed": "I need to know what can go wrong, not just the seller's selling points.",
+      "aiMove": "Summarize reviews by scenario, flag size/material/service risks, and show evidence snippets.",
+      "surface": "Product detail AI summary",
+      "metric": "Return-rate reduction / review engagement"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Alibaba / media coverage on Taobao AI Search and AI shopping assistance",
+      "use": "Validate that Taobao is already moving from search-box interaction toward AI guide surfaces and AI search capabilities."
+    },
+    {
+      "name": "Baymard Institute e-commerce search query type research",
+      "use": "Ground the query taxonomy in e-commerce-specific query classes such as exact, product type, feature, thematic, compatibility, symptom, non-product and subjective queries."
+    },
+    {
+      "name": "Broder and Jansen search-intent literature",
+      "use": "Frame search intent as navigational, informational and transactional; adapt to Taobao's transaction-heavy context."
+    },
+    {
+      "name": "Alibaba product search / LLM retrieval research including recent Taobao AI Search papers",
+      "use": "Support technical feasibility of semantic retrieval, learning-to-rank, and LLM-based reranking in Taobao-scale product search."
+    }
+  ]
+}
